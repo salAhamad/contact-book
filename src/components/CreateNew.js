@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useContactsContext } from '../contexts/ContactContext';
+import moment from 'moment';
 
 const CreateNew = ({ closePopup }) => {
+
+  const { addNewContact } = useContactsContext();
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const initialFields = {
     firstName: '',
@@ -17,23 +21,33 @@ const CreateNew = ({ closePopup }) => {
     companyName: '',
     jobTitle: '',
     department: '',
+    createAt: '',
   }  
 
   const [formValue, setFormValue] = useState(initialFields);
   const [formError, setFormError] = useState({})
   const [error, setError] = useState(false)
 
-
   const inputHandler = (e) => {
     e.preventDefault();
     const {name, value} = e.target;
     setFormValue({ ...formValue, [name]: value })
   }
-  
+  const currentDate = moment(new Date).format('dddd MMMM Do YYYY, hh:mm:ss');;
+
   const formSubmit = (e) => {
     e.preventDefault();
-    setFormError(formValidation(formValue))
-    setError(true)    
+    setFormError(formValidation(formValue))    
+    setError(true)
+    
+    setFormValue({ ...formValue, createAt: currentDate })
+    if (Object.keys(formError).length === 0 && error) {
+      addNewContact(formValue)    
+    }
+    if (error) {
+      
+    }
+    
   }
 
   const formValidation = (value) => {
@@ -64,10 +78,7 @@ const CreateNew = ({ closePopup }) => {
   }
 
   useEffect(() => {
-    console.log(formError);
-    if (Object.keys(formError).length === 0 && error) {
-      console.log(formValue);
-    }
+    if (Object.keys(formError).length === 0 && error) {}
   }, [formValue]);
 
   return (
