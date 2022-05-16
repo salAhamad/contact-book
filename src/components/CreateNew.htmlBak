@@ -1,0 +1,112 @@
+<section class='create_new_section'>
+  <div class="sub_container">
+    <h4 class='fw-bold text-primary'>
+      <i class="fa-solid fa-address-book me-3"></i>
+      Create New Contact
+    </h4>
+    <hr />
+    <form action="" class='mt-4 d-flex flex-column gap-3'>
+      <div class="form-group d-flex gap-3">
+        <lable class="label_icon">
+          <i class="fa-solid fa-user"></i>
+        </lable>
+        <input type="text" class="form-control" placeholder="First Name" />
+        <input type="text" class="form-control" placeholder="Last Name" />
+      </div>
+      <div class="form-group d-flex gap-3">
+        <lable class="label_icon">
+          <i class="fa-solid fa-phone"></i>
+        </lable>
+        <input type="number" class="form-control" placeholder="Mobole number" />
+        <input type="number" class="form-control" placeholder="Phone number" />
+      </div>
+      <div class="form-group d-flex gap-3">
+        <lable class="label_icon">
+          <i class="fa-solid fa-envelope"></i>
+        </lable>
+        <input type="email" class="form-control" placeholder="Email Id" />
+      </div>
+      <div class="form-group d-flex gap-3">
+        <lable class="label_icon">
+          <i class="fa-solid fa-venus-mars"></i>
+        </lable>
+        <div class='d-flex border w-100 rounded py-2 px-3 gap-5'>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="gender" id="male" />
+              <label class="form-check-label" for="male">Male</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="gender" id="female" />
+              <label class="form-check-label" for="female">Female</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="gender" id="other" />
+              <label class="form-check-label" for="other">Other</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="group d-flex flex-column gap-3">
+        <div class='d-flex mt-3 ps-5 text-secondary'>
+          <span class='fw-normal fs-6 ps-2'>Address (Optional)</span>
+        </div>
+        <div class="form-group d-flex gap-3">
+          <lable class="label_icon">
+            <i class="fa-solid fa-map-marker-alt"></i>
+          </lable>
+          <div class="d-flex flex-wrap gap-3 w-100">
+            <input type="email" class="form-control"  placeholder="Flat/House/Street/Landmark ..." />
+            <div style={{ width: 'calc(50% - .5rem)' }}>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Select Country</option>
+                <option value="1">Country Name</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div style={{ width: 'calc(50% - .5rem)' }}>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Select State</option>
+                <option value="1">Country Name</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div style={{ width: 'calc(50% - .5rem)' }}>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Select City</option>
+                <option value="1">Country Name</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            
+            <input type="email" class="form-control" style={{ width: 'calc(100% - .0rem)' }} placeholder="Company Name" />
+            <input type="email" class="form-control" style={{ width: 'calc(50% - .5rem)' }} placeholder="Job Title" />
+            <input type="email" class="form-control" style={{ width: 'calc(50% - .5rem)' }} placeholder="Department" />
+          </div>
+        </div>
+      </div>
+      
+      <div class="group d-flex flex-column gap-3">
+        <div class='d-flex mt-3 ps-5 text-secondary'>
+          <span class='fw-normal fs-6 ps-2'>Company Details (Optional)</span>
+        </div>
+        <div class="form-group d-flex gap-3">
+          <lable class="label_icon">
+            <i class="fa-solid fa-building"></i>
+          </lable>
+          <div class="d-flex flex-wrap gap-3 w-100">
+            <input type="email" class="form-control" style={{ width: 'calc(100% - .0rem)'}} placeholder="Company Name" />
+            <input type="email" class="form-control" style={{ width: 'calc(50% - .5rem)' }} placeholder="Job Title" />
+            <input type="email" class="form-control" style={{ width: 'calc(50% - .5rem)' }} placeholder="Department" />
+          </div>
+        </div>            
+      </div>
+      <div class="buttons d-flex gap-3 justify-content-center mt-4">
+        <button class='btn btn-secondary px-3' type='submit'>Cancel</button>
+        <button class='btn btn-primary px-3' type='submit'>Create New</button>
+      </div>
+    </form>
+  </div>
+</section>
