@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useContactsContext } from '../contexts/ContactContext';
 import moment from 'moment';
 
 const CreateNew = ({ closePopup }) => {
 
   const { addNewContact } = useContactsContext();
-  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   const initialFields = {
     firstName: '',
     lastName: '',
@@ -33,7 +33,7 @@ const CreateNew = ({ closePopup }) => {
     const {name, value} = e.target;
     setFormValue({ ...formValue, [name]: value })
   }
-  const currentDate = moment(new Date).format('dddd MMMM Do YYYY, hh:mm:ss');;
+  const currentDate = moment(new Date()).format('DD MM YYYY, hh:mm:ss');;
 
   const formSubmit = (e) => {
     e.preventDefault();
@@ -77,9 +77,9 @@ const CreateNew = ({ closePopup }) => {
     return errors;
   }
 
-  useEffect(() => {
-    if (Object.keys(formError).length === 0 && error) {}
-  }, [formValue]);
+  // useEffect(() => {
+  //   if (Object.keys(formError).length === 0 && error) {}
+  // }, [formValue]);
 
   return (
     <section className='create_new_section'>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import man_avatar from '../assets/images/man.png'
-import woman_avatar from '../assets/images/woman.png'
+// import woman_avatar from '../assets/images/woman.png'
 
 const ContactList = () => {
   return (
@@ -20,7 +20,7 @@ const ContactList = () => {
             </li>
             <li>
               <i className="fa-solid fa-envelope"></i>
-              <a href="mailto:salaraza1993@gmail.com" target="_blank">salaraza1993@gmail.com</a>
+              <a href="mailto:salaraza1993@gmail.com" target="_blank" rel="noreferrer">salaraza1993@gmail.com</a>
             </li>
           </ul>
         </div>
