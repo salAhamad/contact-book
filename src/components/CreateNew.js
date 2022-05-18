@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContactsContext } from '../contexts/ContactContext';
 import moment from 'moment';
+import axios from 'axios';
 
 const CreateNew = ({ closePopup }) => {
+
+  const COUTNRIES_API_URL = 'http://localhost:3000/coutries';
+  const STATES_API_URL = 'http://localhost:3000/states';
+  const CITES_API_URL = 'http://localhost:3000/cities';
 
   const { addNewContact } = useContactsContext();
   const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -22,18 +27,67 @@ const CreateNew = ({ closePopup }) => {
     jobTitle: '',
     department: '',
     createAt: '',
-  }  
+  }
 
   const [formValue, setFormValue] = useState(initialFields);
   const [formError, setFormError] = useState({})
   const [error, setError] = useState(false)
+  const [country, setCountry] = useState([])
+  const [state, setState] = useState([])
+  
+  const currentDate = moment(new Date()).format('DD/MM/YYYY, hh:mm:ss');;
+  
+  // Fetching all counties
+  const getAllCountries = () => {
+    try {
+      axios.get(COUTNRIES_API_URL).then(response => {
+        setCountry(response.data);
+      }).then(error => {
+        console.log(error);
+      })      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const inputHandler = (e) => {
     e.preventDefault();
     const {name, value} = e.target;
     setFormValue({ ...formValue, [name]: value })
   }
-  const currentDate = moment(new Date()).format('DD MM YYYY, hh:mm:ss');;
+  
+  const countrySelectionHandler = (e) => {
+    const {name, value} = e.target;
+    const countryName = country.filter(cntry => cntry.id === parseInt(value)).map(item => item.name);
+    setFormValue({ ...formValue, [name]: countryName[0] })
+    checkStates(parseInt(e.target.value))
+  }
+  
+  const checkStates = async (cntryId) => {
+    try {
+      const result  = await axios(STATES_API_URL).then(res => res.data);
+      setState(result.filter(state => state.country_id === cntryId))
+    } catch (error) {
+      console.log('State Errors: ', error);
+    }
+  }
+  const checkCities = async (cntryId) => {
+    try {
+      const result  = await axios(STATES_API_URL).then(res => res.data);
+      setState(result.filter(state => state.country_id === cntryId))
+    } catch (error) {
+      console.log('State Errors: ', error);
+    }
+  }
+  
+  const stateSelectionHandler = async (e) => {
+    try {
+      const result  = await axios(STATES_API_URL).then(res => res.data);
+      setState(result.filter(state =>  state.country_id === cntryId))
+    } catch (error) {
+      console.log('State Errors: ', error);
+    }
+  }
 
   const formSubmit = (e) => {
     e.preventDefault();
@@ -41,13 +95,14 @@ const CreateNew = ({ closePopup }) => {
     setError(true)
     
     setFormValue({ ...formValue, createAt: currentDate })
-    if (Object.keys(formError).length === 0 && error) {
-      addNewContact(formValue)    
-    }
-    if (error) {
-      
-    }
     
+    if(Object.keys(formError).length === 0 && error) {
+      setError(false)
+      addNewContact(formValue)
+      closePopup(e)
+    } else {
+      setError(true)
+    }
   }
 
   const formValidation = (value) => {
@@ -77,9 +132,14 @@ const CreateNew = ({ closePopup }) => {
     return errors;
   }
 
-  // useEffect(() => {
-  //   if (Object.keys(formError).length === 0 && error) {}
-  // }, [formValue]);
+
+
+  useEffect(() => {}, [state]);
+  useEffect(() => {
+    // if (Object.keys(formError).length === 0 && error) {}
+    getAllCountries();
+    checkStates();
+  }, []);
 
   return (
     <section className='create_new_section'>
@@ -159,6 +219,7 @@ const CreateNew = ({ closePopup }) => {
                 { formError.email && <p className='text-danger'>{formError.email}</p>}
             </div>
           </div>
+
           <div className="form-group d-flex gap-3">
             <label htmlFor='' className="label_icon">
               <i className="fa-solid fa-venus-mars"></i>
@@ -193,19 +254,27 @@ const CreateNew = ({ closePopup }) => {
               <div className="d-flex flex-wrap gap-3 w-100">
                 <input onInput={inputHandler} name="address" value={formValue.address} type="text" className="form-control"  placeholder="Flat/House/Street/Landmark ..." />
                 <div style={{ width: 'calc(50% - .5rem)' }}>
-                  <select onInput={inputHandler} className="form-select" name='country' value={formValue.country}>
+                  <select onChange={countrySelectionHandler} className="form-select" name='country'>
                     <option defaultValue>Select Country</option>
-                    <option value="1">Country Name</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    {
+                      country.map((country, index) => {
+                        return <option key={index} value={country.id}>{country.name}</option>
+                      })
+                    }
                   </select>
                 </div>
                 <div style={{ width: 'calc(50% - .5rem)' }}>
                   <select onInput={inputHandler} className="form-select" name='state' value={formValue.state}>
                     <option defaultValue>Select State</option>
-                    <option value="1">Country Name</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    {
+                      state.length > 0 ? 
+                      state.map((state, index) => {
+                        return <option value={state.name} key={index}>{state.name}</option>
+                      }) :
+                      state.map((state, index) => {
+                        return <option value="No State" key={index}>Not found any state</option>
+                      })
+                    }                    
                   </select>
                 </div>
                 <div style={{ width: 'calc(50% - .5rem)' }}>

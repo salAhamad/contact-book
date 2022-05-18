@@ -3,7 +3,7 @@ import React from 'react';
 import man_avatar from '../assets/images/man.png'
 // import woman_avatar from '../assets/images/woman.png'
 
-const ContactList = () => {
+const ContactList = ({ data }) => {
   return (
     <div className='contact_list_container'>
       <div className="details">
@@ -12,15 +12,15 @@ const ContactList = () => {
           <img src={man_avatar} alt="" />
         </div>
         <div className="user-details">
-          <h5 className="user_name">User Name</h5>
+          <h5 className="user_name">{`${data.firstName} ${data.lastName}`}</h5>
           <ul className="user_contacts">
             <li>
               <i className="fa-solid fa-phone"></i>
-              +91 7838367864
+              {data.mobile}
             </li>
             <li>
               <i className="fa-solid fa-envelope"></i>
-              <a href="mailto:salaraza1993@gmail.com" target="_blank" rel="noreferrer">salaraza1993@gmail.com</a>
+              <a href={`mailto:${data.email}`} target="_blank" rel="noreferrer">{data.email}</a>
             </li>
           </ul>
         </div>
