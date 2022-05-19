@@ -7,7 +7,9 @@ const CreateNew = ({ closePopup }) => {
 
   const COUTNRIES_API_URL = 'http://localhost:3000/coutries';
   const STATES_API_URL = 'http://localhost:3000/states';
-  const CITES_API_URL = 'http://localhost:3000/cities';
+  const CITIES_API_URL = 'http://localhost:3000/cities';
+
+  // const NEW_COUNTIES_API_URL = 'https://restcountries.com/v3.1/all'
 
   const { addNewContact } = useContactsContext();
   const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -22,8 +24,8 @@ const CreateNew = ({ closePopup }) => {
     country: '',
     state: '',
     city: '',
-    pinCode: '',
-    companyName: '',
+    pincode: '',
+    company: '',
     jobTitle: '',
     department: '',
     createAt: '',
@@ -34,6 +36,7 @@ const CreateNew = ({ closePopup }) => {
   const [error, setError] = useState(false)
   const [country, setCountry] = useState([])
   const [state, setState] = useState([])
+  const [cities, setCities] = useState([])
   
   const currentDate = moment(new Date()).format('DD/MM/YYYY, hh:mm:ss');;
   
@@ -50,19 +53,21 @@ const CreateNew = ({ closePopup }) => {
     }
   }
 
+  // Comnmon Input Hander
   const inputHandler = (e) => {
     e.preventDefault();
     const {name, value} = e.target;
     setFormValue({ ...formValue, [name]: value })
   }
   
+  // Country selection handler to get all states of it.
   const countrySelectionHandler = (e) => {
     const {name, value} = e.target;
     const countryName = country.filter(cntry => cntry.id === parseInt(value)).map(item => item.name);
     setFormValue({ ...formValue, [name]: countryName[0] })
     checkStates(parseInt(e.target.value))
   }
-  
+  // Pushing all states to the array
   const checkStates = async (cntryId) => {
     try {
       const result  = await axios(STATES_API_URL).then(res => res.data);
@@ -71,19 +76,20 @@ const CreateNew = ({ closePopup }) => {
       console.log('State Errors: ', error);
     }
   }
-  const checkCities = async (cntryId) => {
-    try {
-      const result  = await axios(STATES_API_URL).then(res => res.data);
-      setState(result.filter(state => state.country_id === cntryId))
-    } catch (error) {
-      console.log('State Errors: ', error);
-    }
+
+  // State Selection handler to find all cities of it.
+  const stateSelectionHandler = async (e) => {
+    const {name, value} = e.target;
+    const stateName = state.filter(cntry => cntry.id === parseInt(value)).map(item => item.name);
+    setFormValue({ ...formValue, [name]: stateName[0] })
+    checkCities(parseInt(e.target.value))
   }
   
-  const stateSelectionHandler = async (e) => {
+  // Pushing cities to the array based on the selected state.
+  const checkCities = async (sttId) => {
     try {
-      const result  = await axios(STATES_API_URL).then(res => res.data);
-      setState(result.filter(state =>  state.country_id === cntryId))
+      const result  = await axios(CITIES_API_URL).then(res => res.data);
+      setCities(result.filter(city => city.state_id === sttId))
     } catch (error) {
       console.log('State Errors: ', error);
     }
@@ -132,13 +138,14 @@ const CreateNew = ({ closePopup }) => {
     return errors;
   }
 
+  useEffect(() => {}, [state, cities]);
 
-
-  useEffect(() => {}, [state]);
   useEffect(() => {
     // if (Object.keys(formError).length === 0 && error) {}
     getAllCountries();
     checkStates();
+    
+
   }, []);
 
   return (
@@ -264,12 +271,12 @@ const CreateNew = ({ closePopup }) => {
                   </select>
                 </div>
                 <div style={{ width: 'calc(50% - .5rem)' }}>
-                  <select onInput={inputHandler} className="form-select" name='state' value={formValue.state}>
+                  <select onChange={stateSelectionHandler} className="form-select" name='state'>
                     <option defaultValue>Select State</option>
                     {
                       state.length > 0 ? 
                       state.map((state, index) => {
-                        return <option value={state.name} key={index}>{state.name}</option>
+                        return <option value={state.id} key={index}>{state.name}</option>
                       }) :
                       state.map((state, index) => {
                         return <option value="No State" key={index}>Not found any state</option>
@@ -278,11 +285,17 @@ const CreateNew = ({ closePopup }) => {
                   </select>
                 </div>
                 <div style={{ width: 'calc(50% - .5rem)' }}>
-                  <select onInput={inputHandler} className="form-select" name='city' value={formValue.city}>
+                  <select onChange={inputHandler} className="form-select" name='city' value={formValue.city}>
                     <option defaultValue>Select City</option>
-                    <option value="1">Country Name</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    {
+                      state.length > 0 ? 
+                      cities.map((city, index) => {
+                        return <option value={city.name} key={index}>{city.name}</option>
+                      }) :
+                      cities.map((city, index) => {
+                        return <option value="No City" key={index}>Not found any City</option>
+                      })
+                    }    
                   </select>
                 </div>
                 <input name='pincode' value={formValue.pincode} onInput={inputHandler} type="number" className="form-control" style={{ width: 'calc(50% - .5rem)' }} placeholder="Pin Code" />
