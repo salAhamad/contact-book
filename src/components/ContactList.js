@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import man_avatar from '../assets/images/man.png'
 // import woman_avatar from '../assets/images/woman.png'
 
 const ContactList = ({ data }) => {
+
+  const [toggle, setToggle] = useState(false)
+  document.body.addEventListener("click", (e) => {
+    setToggle(false)
+  });
+  const actionButtonHandler = (e) => {
+    e.stopPropagation();    
+    // e.nativeEvent.stopImmediatePropagation();
+    setToggle(!toggle)
+  }
+
   return (
-    <div className='contact_list_container'>
+    <div className={toggle ? "contact_list_container actions_activated" : "contact_list_container"}>
       <div className="details">
         <div className="user_avatar">
           {/* <i className="fa-solid fa-user"></i> */}
@@ -25,8 +36,12 @@ const ContactList = ({ data }) => {
           </ul>
         </div>
       </div>
-      <div className="more_info_actions">
-        <div className="more_info_button">
+      <div className={toggle ? "more_info_actions actions_activated" : "more_info_actions"}>
+        <ul className={toggle ? "action_buttons active" : "action_buttons"}>
+          <li className="edit"><i className="fa-solid fa-pencil-alt pe-none"></i></li>
+          <li className="delete"><i className="fa-solid fa-trash-alt pe-none"></i></li>
+        </ul>
+        <div className={toggle ? "more_info_button active" : "more_info_button"} onClick={ actionButtonHandler }>
           <i className="fa-solid fa-ellipsis-v pe-none"></i>
         </div>
       </div>
