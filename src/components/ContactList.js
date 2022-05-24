@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import man_avatar from '../assets/images/man.png'
+import { useContactsContext } from '../contexts/ContactContext';
 // import woman_avatar from '../assets/images/woman.png'
 
-const ContactList = ({ data }) => {
+const ContactList = ({ data, editContact }) => {
 
-  const [toggle, setToggle] = useState(false)
+  const { getContactData } = useContactsContext();
+  const [toggle, setToggle] = useState(false);
+
   document.body.addEventListener("click", (e) => {
     setToggle(false)
   });
@@ -14,6 +17,7 @@ const ContactList = ({ data }) => {
     // e.nativeEvent.stopImmediatePropagation();
     setToggle(!toggle)
   }
+
 
   return (
     <div className={toggle ? "contact_list_container actions_activated" : "contact_list_container"}>
@@ -38,8 +42,13 @@ const ContactList = ({ data }) => {
       </div>
       <div className={toggle ? "more_info_actions actions_activated" : "more_info_actions"}>
         <ul className={toggle ? "action_buttons active" : "action_buttons"}>
-          <li className="edit"><i className="fa-solid fa-pencil-alt pe-none"></i></li>
-          <li className="delete"><i className="fa-solid fa-trash-alt pe-none"></i></li>
+          <li id={ data.contactId } className="edit" onClick={ e => {
+            editContact(data.contactId)
+            getContactData(data.contactId)
+          }}>
+          <i className="fa-solid fa-pencil-alt pe-none"></i>
+          </li>
+          <li id={data.contactId} className="delete"><i className="fa-solid fa-trash-alt pe-none"></i></li>
         </ul>
         <div className={toggle ? "more_info_button active" : "more_info_button"} onClick={ actionButtonHandler }>
           <i className="fa-solid fa-ellipsis-v pe-none"></i>

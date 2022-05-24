@@ -4,14 +4,22 @@ const ContactContexts = createContext();
 
 export function ContactsContextProvider({ children }) {
   
+  
   const LOCAL_STORAGE_KEY = "constacts";
   const getLocalStorateData = () => {
     const retrievedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     return retrievedData ? retrievedData : []
   }
+
   const [contacts, setContacts] = useState(getLocalStorateData());
+  const [editContactData, setEditContactData] = useState([]);
+  
 
   // const [createNewContact, setCreateNewContact] = useState(null);
+
+  function getContactData(elem) {
+    setEditContactData(contacts.filter(contact => contact.contactId === elem))    
+  }
 
 
   function addNewContact(data) {
@@ -27,7 +35,10 @@ export function ContactsContextProvider({ children }) {
   
   
   return <ContactContexts.Provider value={{
-    addNewContact, contacts
+    addNewContact, 
+    contacts, 
+    getContactData,
+    editContactData
   }}>{ children }</ContactContexts.Provider>;
 }
 

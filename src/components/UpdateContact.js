@@ -6,31 +6,34 @@ import axios from 'axios';
 
 const CreateNew = ({ closePopup }) => {
 
+
   const COUTNRIES_API_URL = 'http://localhost:3000/coutries';
   const STATES_API_URL = 'http://localhost:3000/states';
   const CITIES_API_URL = 'http://localhost:3000/cities';
 
   // const NEW_COUNTIES_API_URL = 'https://restcountries.com/v3.1/all'
 
-  const { addNewContact } = useContactsContext();
+  const { editContactData } = useContactsContext();
+  console.log(editContactData[0]);
+
   const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   const initialFields = {
-    contactId: null,
-    firstName: '',
-    lastName: '',
-    mobile: '',
-    email: '',
-    phone: '',
-    gender: '',
-    address: '',
-    country: '',
-    state: '',
-    city: '',
-    pincode: '',
-    company: '',
-    jobTitle: '',
-    department: '',
-    createAt: '',
+    contactId: editContactData[0].userId,
+    firstName: editContactData[0].firstName,
+    lastName: editContactData[0].lastName,
+    mobile: editContactData[0].mobile,
+    email: editContactData[0].email,
+    phone: editContactData[0].phone,
+    gender: editContactData[0].gender,
+    address: editContactData[0].address,
+    country: editContactData[0].country,
+    state: editContactData[0].state,
+    city: editContactData[0].city,
+    pincode: editContactData[0].pincode,
+    company: editContactData[0].company,
+    jobTitle: editContactData[0].jobTitle,
+    department: editContactData[0].department,
+    createAt: editContactData[0].createAt,
   }
 
   const [formValue, setFormValue] = useState(initialFields);
@@ -107,7 +110,7 @@ const CreateNew = ({ closePopup }) => {
     if(Object.keys(formError).length === 0 && error) {
       setError(false)
       closePopup(e)
-      addNewContact(formValue)
+      // addNewContact(formValue)
     } else {
       setError(true)
     }
@@ -153,7 +156,7 @@ const CreateNew = ({ closePopup }) => {
         <div className="form_header d-flex justify-content-between">
           <h4 className='fw-bold text-primary'>
             <i className="fa-solid fa-address-book me-3"></i>
-            Create New Contact
+            Update Contact Details
           </h4>
           <div className="popupCloseButton" onClick={closePopup}><i className="fa-solid fa-times"></i></div>
         </div>
