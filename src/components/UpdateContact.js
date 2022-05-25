@@ -13,27 +13,30 @@ const CreateNew = ({ closePopup }) => {
 
   // const NEW_COUNTIES_API_URL = 'https://restcountries.com/v3.1/all'
 
-  const { editContactData } = useContactsContext();
-  console.log(editContactData[0]);
+  const { editContactData, updateContactDate } = useContactsContext();
+
+  const currentData = editContactData[0];
 
   const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
   const initialFields = {
-    contactId: editContactData[0].userId,
-    firstName: editContactData[0].firstName,
-    lastName: editContactData[0].lastName,
-    mobile: editContactData[0].mobile,
-    email: editContactData[0].email,
-    phone: editContactData[0].phone,
-    gender: editContactData[0].gender,
-    address: editContactData[0].address,
-    country: editContactData[0].country,
-    state: editContactData[0].state,
-    city: editContactData[0].city,
-    pincode: editContactData[0].pincode,
-    company: editContactData[0].company,
-    jobTitle: editContactData[0].jobTitle,
-    department: editContactData[0].department,
-    createAt: editContactData[0].createAt,
+    contactId: currentData.userId,
+    firstName: currentData.firstName,
+    lastName: currentData.lastName,
+    mobile: currentData.mobile,
+    email: currentData.email,
+    phone: currentData.phone,
+    gender: currentData.gender,
+    address: currentData.address,
+    country: currentData.country,
+    state: currentData.state,
+    city: currentData.city,
+    pincode: currentData.pincode,
+    company: currentData.company,
+    jobTitle: currentData.jobTitle,
+    department: currentData.department,
+    createdAt: currentData.createdAt,
+    updatedAt: null,
   }
 
   const [formValue, setFormValue] = useState(initialFields);
@@ -45,7 +48,6 @@ const CreateNew = ({ closePopup }) => {
   const [networkError, setNetworkError] = useState(null);
   
   const currentDate = moment(new Date()).format('DD/MM/YYYY, hh:mm:ss');;
-  
   // Fetching all counties
   const getAllCountries = async () => {
     try {
@@ -104,13 +106,15 @@ const CreateNew = ({ closePopup }) => {
     setFormError(formValidation(formValue))    
     setError(true)
     
-    setFormValue({ ...formValue, createAt: currentDate })
-    setFormValue({ ...formValue, contactId: uuidv4() })
+    setFormValue({ ...formValue, updatedAt: currentDate })
     
     if(Object.keys(formError).length === 0 && error) {
       setError(false)
       closePopup(e)
-      // addNewContact(formValue)
+      console.log(currentDate);
+      console.log(formValue);
+      console.log(editContactData.contactId);
+      updateContactDate(formValue)
     } else {
       setError(true)
     }
@@ -161,7 +165,7 @@ const CreateNew = ({ closePopup }) => {
           <div className="popupCloseButton" onClick={closePopup}><i className="fa-solid fa-times"></i></div>
         </div>
         <hr />
-        <form action="" className='mt-4 d-flex flex-column gap-3' onSubmit={formSubmit}>
+        <form action="" className='mt-4 d-flex flex-column gap-3' onSubmit={ formSubmit }>
           {
             networkError && <div className="alert alert-warning">
             <p className="text-danger mb-1">{networkError}</p>
@@ -245,15 +249,21 @@ const CreateNew = ({ closePopup }) => {
             <div className="d-flex w-100 flex-column">
               <div className='d-flex border w-100 rounded py-2 px-3 gap-5'>
                 <div className="form-check">
-                  <input onInput={inputHandler} value="Male" className="form-check-input" type="radio" name="gender" id="male" />
+                  <input onInput={ inputHandler } value="Male" className="form-check-input" type="radio" name="gender" id="male" defaultChecked={
+                    currentData.gender === 'Male' ? true : false
+                  } />
                   <label className="form-check-label cursor-pointer" htmlFor="male">Male</label>
                 </div>
                 <div className="form-check">
-                  <input onInput={inputHandler} value="Female" className="form-check-input" type="radio" name="gender" id="female" />
+                  <input onInput={ inputHandler } value="Female" className="form-check-input" type="radio" name="gender" id="female" defaultChecked={
+                    currentData.gender === 'Female' ? true : false
+                  } />
                   <label className="form-check-label cursor-pointer" htmlFor="female">Female</label>
                 </div>
                 <div className="form-check">
-                  <input onInput={inputHandler} value="Other" className="form-check-input" type="radio" name="gender" id="other" />
+                  <input onInput={ inputHandler } value="Other" className="form-check-input" type="radio" name="gender" id="other" defaultChecked={
+                    currentData.gender === 'Other' ? true : false
+                  } />
                   <label className="form-check-label cursor-pointer" htmlFor="other">Other</label>
                 </div>
               </div>
@@ -271,9 +281,10 @@ const CreateNew = ({ closePopup }) => {
               </label>
               <div className="d-flex flex-wrap gap-3 w-100">
                 <input onInput={inputHandler} name="address" value={formValue.address} type="text" className="form-control"  placeholder="Flat/House/Street/Landmark ..." />
+                
                 <div style={{ width: 'calc(50% - .5rem)' }}>
-                  <select onChange={countrySelectionHandler} className="form-select" name='country'>
-                    <option defaultValue>Select Country</option>
+                  <select onChange={ countrySelectionHandler } className="form-select" name='country'>
+                    <option defaultValue>{ currentData.country }</option>
                     {
                       country.map((country, index) => {
                         return <option key={index} value={country.id}>{country.name}</option>
@@ -281,9 +292,10 @@ const CreateNew = ({ closePopup }) => {
                     }
                   </select>
                 </div>
+                
                 <div style={{ width: 'calc(50% - .5rem)' }}>
-                  <select onChange={stateSelectionHandler} className="form-select" name='state'>
-                    <option defaultValue>Select State</option>
+                  <select onChange={ stateSelectionHandler } className="form-select" name='state'>
+                    <option defaultValue>{ currentData.state }</option>
                     {
                       state.length > 0 ? 
                       state.map((state, index) => {
@@ -296,8 +308,8 @@ const CreateNew = ({ closePopup }) => {
                   </select>
                 </div>
                 <div style={{ width: 'calc(50% - .5rem)' }}>
-                  <select onChange={inputHandler} className="form-select" name='city' value={formValue.city}>
-                    <option defaultValue>Select City</option>
+                  <select onChange={inputHandler} className="form-select" name='city'>
+                    <option defaultValue>{ currentData.city }</option>
                     {
                       state.length > 0 ? 
                       cities.map((city, index) => {

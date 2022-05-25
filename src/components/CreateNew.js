@@ -30,7 +30,7 @@ const CreateNew = ({ closePopup }) => {
     company: '',
     jobTitle: '',
     department: '',
-    createAt: '',
+    createdAt: '',
   }
 
   const [formValue, setFormValue] = useState(initialFields);
@@ -101,8 +101,12 @@ const CreateNew = ({ closePopup }) => {
     setFormError(formValidation(formValue))    
     setError(true)
     
-    setFormValue({ ...formValue, createAt: currentDate })
-    setFormValue({ ...formValue, contactId: uuidv4() })
+    setFormValue({ 
+      ...formValue, 
+      createdAt: currentDate,
+      contactId: uuidv4()
+    })
+    
     
     if(Object.keys(formError).length === 0 && error) {
       setError(false)
