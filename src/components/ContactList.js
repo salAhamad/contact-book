@@ -46,6 +46,9 @@ const ContactList = ({ data, editContact, deleteableDataHandler }) => {
       </div>
       <div className={toggle ? "more_info_actions actions_activated" : "more_info_actions"}>
         <ul className={toggle ? "action_buttons active" : "action_buttons"}>
+          <li id={data.contactId} className="info" onClick={ e => deleteableDataHandler(data)}>
+            <i className="fa-solid fa-info-circle pe-none"></i>
+          </li>
           <li id={data.contactId} className="delete" onClick={ e => deleteableDataHandler(data)}>
             <i className="fa-solid fa-trash-alt pe-none"></i>
           </li>

@@ -208,7 +208,7 @@ header {
         overflow: hidden;
         transition: $transition;
         width: 0;
-        &.active { width: $buttonSize * 2; }
+        &.active { width: $buttonSize * 3; }
         li {
           width: $buttonSize;
           min-width: $buttonSize;
@@ -245,6 +245,13 @@ header {
             &:hover {
               color: var(--bs-white);
               &:after {background-color: var(--bs-danger);}
+            }
+          }
+          &.info {
+            color: var(--bs-primary);
+            &:hover {
+              color: var(--bs-white);
+              &:after {background-color: var(--bs-info);}
             }
           }
         }

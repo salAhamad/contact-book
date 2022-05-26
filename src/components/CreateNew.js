@@ -12,6 +12,7 @@ const CreateNew = ({ closePopup }) => {
 
   const initialFields = {
     contactId: null,
+    profileImage: null,
     firstName: '',
     lastName: '',
     mobile: '',
@@ -138,6 +139,16 @@ const CreateNew = ({ closePopup }) => {
             <p className='m-0' style={{fontSize: '80%'}}>Make sure your server is running to fetch counties, states, and cities.</p>
           </div>
           }
+          <div className="form-group d-flex gap-3">
+            <label htmlFor='' className="label_icon">
+              <i className="fa-solid fa-user"></i>
+            </label>
+            <div className="d-flex flex-wrap gap-3 w-100">
+              <div className="w-100">
+                <input className="form-control" name="profileImage" type="file" id="formFile" />
+              </div>
+            </div>
+          </div>
           <div className="form-group d-flex gap-3">
             <label htmlFor='' className="label_icon">
               <i className="fa-solid fa-user"></i>
