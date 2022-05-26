@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+
+import { useContactsContext } from '../contexts/ContactContext';
 
 import man_avatar from '../assets/images/man.png'
-import { useContactsContext } from '../contexts/ContactContext';
-// import woman_avatar from '../assets/images/woman.png'
+import woman_avatar from '../assets/images/woman.png'
+import other_avatar from '../assets/images/other.png'
 
-const ContactList = ({ data, editContact }) => {
+const ContactList = ({ data, editContact, deleteableDataHandler }) => {
 
   const { getContactData } = useContactsContext();
   const [toggle, setToggle] = useState(false);
@@ -24,7 +26,9 @@ const ContactList = ({ data, editContact }) => {
       <div className="details">
         <div className="user_avatar">
           {/* <i className="fa-solid fa-user"></i> */}
-          <img src={man_avatar} alt="" />
+          {
+            data.gender === "Male" ? <img src={man_avatar} alt="" /> : data.gender === "Female" ? <img src={woman_avatar} alt="" /> : <img src={other_avatar} alt="" />
+          }
         </div>
         <div className="user-details">
           <h5 className="user_name">{`${data.firstName} ${data.lastName}`}</h5>
@@ -42,13 +46,15 @@ const ContactList = ({ data, editContact }) => {
       </div>
       <div className={toggle ? "more_info_actions actions_activated" : "more_info_actions"}>
         <ul className={toggle ? "action_buttons active" : "action_buttons"}>
+          <li id={data.contactId} className="delete" onClick={ e => deleteableDataHandler(data)}>
+            <i className="fa-solid fa-trash-alt pe-none"></i>
+          </li>
           <li id={ data.contactId } className="edit" onClick={ e => {
             editContact(data.contactId)
             getContactData(data.contactId)
           }}>
-          <i className="fa-solid fa-pencil-alt pe-none"></i>
+            <i className="fa-solid fa-pencil-alt pe-none"></i>
           </li>
-          <li id={data.contactId} className="delete"><i className="fa-solid fa-trash-alt pe-none"></i></li>
         </ul>
         <div className={toggle ? "more_info_button active" : "more_info_button"} onClick={ actionButtonHandler }>
           <i className="fa-solid fa-ellipsis-v pe-none"></i>

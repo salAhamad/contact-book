@@ -3,17 +3,13 @@ import { useContactsContext } from '../contexts/ContactContext';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 import axios from 'axios';
+import { formValidation } from '../assets/js/CommonJs'
+
 
 const CreateNew = ({ closePopup }) => {
 
-  const COUTNRIES_API_URL = 'http://localhost:3000/coutries';
-  const STATES_API_URL = 'http://localhost:3000/states';
-  const CITIES_API_URL = 'http://localhost:3000/cities';
+  const { addNewContact, COUTNRIES_API_URL, STATES_API_URL, CITIES_API_URL } = useContactsContext();
 
-  // const NEW_COUNTIES_API_URL = 'https://restcountries.com/v3.1/all'
-
-  const { addNewContact } = useContactsContext();
-  const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   const initialFields = {
     contactId: null,
     firstName: '',
@@ -30,7 +26,7 @@ const CreateNew = ({ closePopup }) => {
     company: '',
     jobTitle: '',
     department: '',
-    createdAt: '',
+    createdAt: null,
   }
 
   const [formValue, setFormValue] = useState(initialFields);
@@ -115,33 +111,6 @@ const CreateNew = ({ closePopup }) => {
     } else {
       setError(true)
     }
-  }
-
-  const formValidation = (value) => {
-    const errors = {};
-    if (!value.firstName) {
-      errors.firstName = "First name is required";
-    }
-    if (!value.lastName) {
-      errors.lastName = "Last name is required";
-    }
-    if (!value.gender) {
-      errors.gender = "Gender must be selected";
-    }
-    if (!value.mobile) {
-      errors.mobile = "Mobile number is required";
-    }
-    // else if (value.mobile.length <= 10) {
-    //   errors.mobile = "Mobile number's length must be 10";
-    // } else if (value.mobile.length >= 10) {
-    //   errors.mobile = "Mobile number cannot be more than 10";
-    // }
-    if (!value.email) {
-      errors.email = "Email address is required";
-    } else if (!regex.test(value.email)) {
-      errors.email = "This email is not a valid format";
-    }
-    return errors;
   }
 
   useEffect(() => {}, [state, cities]);
