@@ -22,9 +22,7 @@ function Modal({ modalType, modalHeader, modalMessage, modaleHandler, buttonSize
                         <h5 className="mb-0">{ modalHeader }</h5>
                     </div>
                 }
-                <div className="modal_body">
-                    <p className='fs-6'>{ modalMessage }</p>
-                </div>
+                <div className="modal_body">{ modalMessage }</div>
                 <div className="modal_footer">
                     <div className="btn btn-secondary" onClick={ e => modaleHandler(false) }>Cancel</div>
                     <div className={

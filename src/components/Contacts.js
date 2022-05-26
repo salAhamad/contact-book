@@ -5,6 +5,7 @@ import SearchContact from './SearchContact';
 
 import UpdateContact from '../components/UpdateContact';
 import Modal from './Modal';
+import ContactProfile from './ContactProfile';
 
 const Contacts = () => {
   const { contacts, deleteContact } =  useContactsContext();
@@ -12,11 +13,12 @@ const Contacts = () => {
   const [editContactToggle, setEditContact] = useState(false);
   const [delContactDetail, setDelContactDetail] = useState([])
   const [modalToggle, setModalToggle] = useState(false)
-  
+  const [contactProfile, setContactProfile] = useState(true)
   
   const closePopup = e => {
     e.preventDefault();
     setEditContact(false)
+    setContactProfile(false)
   }
   const editContact = (e) => setEditContact(true);
   const deleteableDataHandler = (data) => {
@@ -56,7 +58,17 @@ const Contacts = () => {
             modaleHandler={deleteHandler}
             modalHeader={'Deleting Contact'} 
             modalType={"danger"} 
-            modalMessage={`Are you sure you want to delete ${delContactDetail.firstName} ${delContactDetail.lastName}'s contact details?`} /> 
+            modalMessage={
+              <p className='fs-6'>
+                Are you sure you want to delete <br />
+                <strong>${delContactDetail.firstName} ${delContactDetail.lastName}'s</strong> <br /> 
+                contact details?
+              </p>
+            } /> 
+        }
+
+        {
+          contactProfile && <ContactProfile data={contactProfile} closePopup={closePopup} />
         }
       </div>
     </>
