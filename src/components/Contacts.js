@@ -13,13 +13,17 @@ const Contacts = () => {
   const [editContactToggle, setEditContact] = useState(false);
   const [delContactDetail, setDelContactDetail] = useState([])
   const [modalToggle, setModalToggle] = useState(false)
-  const [contactProfile, setContactProfile] = useState(true)
+  const [contactProfile, setContactProfile] = useState(false)
   
   const closePopup = e => {
     e.preventDefault();
     setEditContact(false)
     setContactProfile(false)
   }
+  const contactInfoPopup = (e) => {
+    setContactProfile(true)
+  }
+
   const editContact = (e) => setEditContact(true);
   const deleteableDataHandler = (data) => {
     setModalToggle(true)
@@ -46,7 +50,13 @@ const Contacts = () => {
         <SearchContact />
         {
           contacts.map((contact, index) => {
-            return <ContactList key={index} data={contact} editContact={editContact} deleteableDataHandler={ deleteableDataHandler } />
+            return <ContactList 
+              key={index} 
+              data={contact} 
+              editContact={editContact} 
+              deleteableDataHandler={ deleteableDataHandler } 
+              contactInfoPopup={contactInfoPopup}    
+            />
           })
         }
         {/* Update Contact Popup */}

@@ -194,18 +194,17 @@ header {
     box-shadow: 0 15px 30px rgba(var(--bs-dark-rgb), .08);
     background-color: var(--bs-white);
 
-    .label_icon {
-      width: $buttonSize - 10;
-      min-width: $buttonSize - 10;
-      max-width: $buttonSize - 10;
-      height: $buttonSize - 10;
-      background-color: var(--bs-gray-100);
-      color: var(--bs-primary);
-      border-radius: $borderRadius * 1.2;
-      @include flexCenter();
-    }
-  }
-  
+  }  
+}
+.label_icon {
+  width: $buttonSize - 10;
+  min-width: $buttonSize - 10;
+  max-width: $buttonSize - 10;
+  height: $buttonSize - 10;
+  background-color: var(--bs-gray-100);
+  color: var(--bs-primary);
+  border-radius: $borderRadius * 1.2;
+  @include flexCenter();
 }
 
 .modal_overlay {
@@ -296,7 +295,7 @@ header {
       transition: $transition;
     }
     &.active i { transform: rotate(90deg); color: var(--bs-primary) }
-    &.closePopup {
+    &.close_popup {
       color: var(--bs-danger);
       &:hover::after {
         background-color: rgba(var(--bs-danger-rgb), .2);
@@ -311,7 +310,10 @@ header {
     overflow: hidden;
     transition: $transition;
     width: 0;
-    &.active { width: $buttonSize * 3; }
+    &.active { 
+      &._2x { width: $buttonSize * 2; }
+      &._3x { width: $buttonSize * 3; }
+    }
     li {
       width: $buttonSize;
       min-width: $buttonSize;
@@ -378,7 +380,7 @@ header {
     .contact_profile_sub_container {
       position: relative;
       background-color: var(--bs-white);
-      padding: calc(1rem + .5vw);
+      padding: 1rem 2rem 2rem;
       min-width: 520px;
       max-width: 600px;
       border-radius: .5rem;
@@ -387,11 +389,35 @@ header {
     .short_info_container {
       position: relative;
       border-bottom: 1px solid rgba(var(--bs-dark-rgb), 0.1);
-      padding-top: 1.5rem;
+      padding: 1rem 0;
       .profile_image {
-        min-width: 120px;
-        max-width: 120px;
-        margin-right: 1rem;
+        min-width: 100px;
+        max-width: 100px;
+        margin-right: 1.5rem;
+      }
+
+      .info_container {
+        position: relative;
+        ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.15rem 1rem;
+          
+          li {
+            i { margin-right: .5rem; font-size: 85%;}
+            a {
+              text-decoration: none; 
+              color: var(--bs-dark);
+              &:hover {
+                color: var(--bs-primary);
+                text-decoration: underline;
+              }
+            }
+          }
+        }
       }
     }
   }

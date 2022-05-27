@@ -22,7 +22,6 @@ export function ContactsContextProvider({ children }) {
 
   function getContactData(cont_id) {
     setEditContactData(contacts.filter(contact => contact.contactId === cont_id))
-    console.log(editContactData);
   }  
 
   function addNewContact(data) {
