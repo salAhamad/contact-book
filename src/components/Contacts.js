@@ -8,7 +8,7 @@ import Modal from './Modal';
 import ContactProfile from './ContactProfile';
 
 const Contacts = () => {
-  const { contacts, deleteContact } =  useContactsContext();
+  const { contacts, searchResult, deleteContact } =  useContactsContext();
   
   const [editContactToggle, setEditContact] = useState(false);
   const [delContactDetail, setDelContactDetail] = useState([])
@@ -52,7 +52,7 @@ const Contacts = () => {
           contacts.map((contact, index) => {
             return <ContactList 
               key={index} 
-              data={contact} 
+              data={ contact } 
               editContact={editContact} 
               deleteableDataHandler={ deleteableDataHandler } 
               contactInfoPopup={contactInfoPopup}    
