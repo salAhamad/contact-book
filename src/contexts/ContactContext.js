@@ -16,8 +16,8 @@ export function ContactsContextProvider({ children }) {
 
   const [contacts, setContacts] = useState(getLocalStorateData());
   const [editContactData, setEditContactData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(null)
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchResults, setSearchResults] = useState([]);
 
   
 
@@ -44,15 +44,13 @@ export function ContactsContextProvider({ children }) {
   
   function searchContact(str) {
     setSearchTerm(str);
-    console.log(searchTerm);
     if(str !== '') {
       const foundData = contacts.filter(contact => {
         return Object.values(contact).join(' ').toLowerCase().includes(str.toLowerCase());
       });
-      setSearchResult(foundData)
-      // setContacts(foundData)
+      setSearchResults(foundData)
     } else {
-      // setContacts(contacts)
+      setSearchResults(contacts)
     }
     
   }
@@ -73,7 +71,7 @@ export function ContactsContextProvider({ children }) {
     deleteContact,
     searchContact,
     searchTerm,
-    searchResult
+    searchResults
   }}>{ children }</ContactContexts.Provider>;
 }
 

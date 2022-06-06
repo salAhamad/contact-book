@@ -31,7 +31,7 @@ const ContactList = ({ data, editContact, deleteableDataHandler, contactInfoPopu
           }
         </div>
         <div className="user-details">
-          <h5 className="user_name">{`${data.firstName} ${data.lastName}`}</h5>
+          <h5 onClick={ e => contactInfoPopup(data)} className="user_name">{`${data.firstName} ${data.lastName}`}</h5>
           <ul className="user_contacts">
             <li>
               <i className="fa-solid fa-phone"></i>

@@ -70,7 +70,14 @@ header {
   color: var(--bs-primary);
   i {margin-right: .35rem;}
 }
-
+.form-control:disabled, .form-control[readonly] {
+  background-color: #f9f9f9;
+  opacity: 1;
+  border-color: transparent;
+}
+.form-check-input:disabled~.form-check-label, .form-check-input[disabled]~.form-check-label {
+  opacity: 1;
+}
 .contacts_container {
   position: relative;
   width: 100%;
@@ -138,6 +145,7 @@ header {
         font-weight: 600;
         margin-bottom: .75rem;
         font-size: calc(1rem + .3vw);
+        cursor: pointer;
       }
       .user_contacts {
         display: flex;
@@ -422,4 +430,36 @@ header {
     }
   }
 
+}
+
+@media (max-width: 767px) {
+  .hidden-xs { display: none !important; }
+  .contacts_container {
+    padding: 5vw;
+    .contact_list_container {
+      padding: 0.75rem;
+      .details {
+        align-items: start;
+        .user_avatar {
+          max-width: $buttonSize + 10;
+          min-width: $buttonSize + 10;
+        }
+        .user_name {margin-bottom: .6rem; padding-right: 30px;}
+        .user_contacts li {font-size: 86%;}
+      }
+    }
+  }
+  header { height: auto; }
+  
+  .logo { font-size: calc(1.2rem + .25vw); }
+  .contact_profile_overlay {
+    .contact_profile_container {
+      padding: 5vw;
+      .contact_profile_sub_container {
+        max-width: 100%;
+        min-width: 100%;
+        padding: 1rem;
+      }
+    }
+  }
 }

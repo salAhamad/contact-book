@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useContactsContext } from '../contexts/ContactContext';
 import ContactList from './ContactList';
 import SearchContact from './SearchContact';
@@ -8,20 +8,22 @@ import Modal from './Modal';
 import ContactProfile from './ContactProfile';
 
 const Contacts = () => {
-  const { contacts, searchResult, deleteContact } =  useContactsContext();
+  const { contacts, searchTerm, searchResults, deleteContact } =  useContactsContext();
   
   const [editContactToggle, setEditContact] = useState(false);
   const [delContactDetail, setDelContactDetail] = useState([])
   const [modalToggle, setModalToggle] = useState(false)
-  const [contactProfile, setContactProfile] = useState(false)
+  const [contactProfileToggle, setContactProfileToggle] = useState(false)
+  const [contactProfileData, setContactProfileData] = useState({})
   
   const closePopup = e => {
     e.preventDefault();
     setEditContact(false)
-    setContactProfile(false)
+    setContactProfileToggle(false)
   }
   const contactInfoPopup = (e) => {
-    setContactProfile(true)
+    setContactProfileToggle(true)
+    setContactProfileData(e)
   }
 
   const editContact = (e) => setEditContact(true);
@@ -38,22 +40,19 @@ const Contacts = () => {
     setModalToggle(false)
     deleteContact(delContactDetail.contactId)
   };
-
-
-  // useEffect(() => {
-  //   modaleHander();
-  // }, [modalValue])
+  
+  const contactData = searchTerm.length < 1 ? contacts : searchResults;
 
   return (
     <>
       <div className='contacts_container'>
         <SearchContact />
         {
-          contacts.map((contact, index) => {
+          contactData.map((contact, index) => {
             return <ContactList 
               key={index} 
               data={ contact } 
-              editContact={editContact} 
+              editContact={editContact}
               deleteableDataHandler={ deleteableDataHandler } 
               contactInfoPopup={contactInfoPopup}    
             />
@@ -70,15 +69,18 @@ const Contacts = () => {
             modalType={"danger"} 
             modalMessage={
               <p className='fs-6'>
-                Are you sure you want to delete <br />
-                <strong>${delContactDetail.firstName} ${delContactDetail.lastName}'s</strong> <br /> 
-                contact details?
+                Are you sure you want to delete <strong>{delContactDetail.firstName} {delContactDetail.lastName}'s</strong> contact details?
               </p>
             } /> 
         }
 
         {
-          contactProfile && <ContactProfile data={contactProfile} closePopup={closePopup} />
+          contactProfileToggle && 
+            <ContactProfile 
+            data={contactProfileData} 
+            closePopup={closePopup} 
+            editContact={editContact}
+          />
         }
       </div>
     </>
