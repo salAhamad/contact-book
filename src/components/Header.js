@@ -8,7 +8,7 @@ const Header = ({ createNewForm }) => {
           <i className="fa-solid fa-address-book"></i> Contacts
         </div>
       </div>
-      <div className="right_block d-flex align-items-center">
+      <div className="right_block d-flex">
         <button className='btn btn-primary px-lg-3 pe-lg-4 add_new_contact_btn' onClick={createNewForm}>
           <i className="fa-solid fa-plus me-lg-2"></i> <span className='hidden-xs'>Create New</span>
         </button>

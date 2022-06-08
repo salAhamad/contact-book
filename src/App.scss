@@ -449,7 +449,10 @@ header {
       }
     }
   }
-  header { height: auto; }
+  header { 
+    height: auto; 
+    align-items: center;
+  }
   
   .logo { font-size: calc(1.2rem + .25vw); }
   .contact_profile_overlay {
