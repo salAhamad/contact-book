@@ -452,6 +452,11 @@ header {
   header { 
     height: auto; 
     align-items: center;
+    .add_new_contact_btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+    }
   }
   
   .logo { font-size: calc(1.2rem + .25vw); }
@@ -464,5 +469,18 @@ header {
         padding: 1rem;
       }
     }
+  }
+  .d-flex.flex-wrap.gap-3.w-100 {
+    gap: .5rem !important;
+    flex-wrap: wrap !important;
+    > div {width: calc(100% - 0.0rem) !important;}
+  }
+  .d-flex.w-100 {
+    flex-wrap: wrap;
+    row-gap: .25rem !important;
+    column-gap: 1.25rem !important;
+  }
+  .contact_profile_overlay .contact_profile_container .short_info_container {
+    padding: 3rem 0 1rem;
   }
 }
